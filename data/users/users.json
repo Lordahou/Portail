@@ -1,0 +1,13 @@
+[
+  {
+    "id": "d5c9f26d-82e1-414d-b95a-c299810886ab",
+    "login": "admin",
+    "password": "$2a$10$mh8zY1qCm1tKDgi/lN7iB.tqubTP6GzqGAH0P3/KUGs4D5fKbSBKm",
+    "nom": "Administrateur",
+    "prenom": "Admin",
+    "role": "admin",
+    "email": "admin@mairie.fr",
+    "actif": true,
+    "creeLe": "2026-03-18T17:13:02.954Z"
+  }
+]
