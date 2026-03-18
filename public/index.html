@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portail Mairie</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- ========== Toast Container ========== -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- ========== LOGIN PAGE ========== -->
+  <div id="login-page" class="login-page">
+    <div class="login-card">
+      <div class="logo">&#127963;&#65039;</div>
+      <h1>Portail Mairie</h1>
+      <p class="subtitle">Connectez-vous pour acc&eacute;der &agrave; votre espace</p>
+      <div id="login-error" class="login-error"></div>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-username">Identifiant</label>
+          <input type="text" id="login-username" placeholder="Votre identifiant" autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="login-password">Mot de passe</label>
+          <input type="password" id="login-password" placeholder="Votre mot de passe" autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Se connecter</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========== APP LAYOUT ========== -->
+  <div id="app-layout" class="app-layout hidden">
+
+    <!-- Sidebar overlay (mobile) -->
+    <div class="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <span class="logo-icon">&#127963;&#65039;</span>
+        <h2>Portail Mairie</h2>
+        <button class="close-sidebar" aria-label="Fermer le menu">&times;</button>
+      </div>
+      <div class="sidebar-nav">
+        <a href="#" data-page="dashboard" class="active">
+          <span class="nav-icon">&#128202;</span> Tableau de bord
+        </a>
+        <a href="#" data-page="courriers">
+          <span class="nav-icon">&#9993;&#65039;</span> Courriers
+        </a>
+        <a href="#" data-page="conseil">
+          <span class="nav-icon">&#127963;&#65039;</span> Conseil municipal
+        </a>
+        <a href="#" data-page="demandes">
+          <span class="nav-icon">&#128203;</span> Demandes habitants
+        </a>
+        <a href="#" data-page="reservations">
+          <span class="nav-icon">&#128197;</span> R&eacute;servations
+        </a>
+        <a href="#" data-page="documents">
+          <span class="nav-icon">&#128193;</span> Documents
+        </a>
+        <div class="nav-divider"></div>
+        <a href="#" data-page="ai">
+          <span class="nav-icon">&#129302;</span> Assistant IA
+        </a>
+        <a href="#" data-page="admin">
+          <span class="nav-icon">&#9881;&#65039;</span> Administration
+        </a>
+      </div>
+      <div class="sidebar-footer">
+        &copy; 2026 Portail Mairie
+      </div>
+    </nav>
+
+    <!-- Main content wrapper -->
+    <div class="main-wrapper">
+
+      <!-- Top bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="hamburger" aria-label="Menu">&#9776;</button>
+          <h1 id="page-title">Tableau de bord</h1>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-user">
+            <div class="user-avatar" id="user-avatar">U</div>
+            <span class="user-name" id="user-name">Utilisateur</span>
+          </div>
+          <a href="#" id="btn-logout" class="btn btn-ghost btn-sm" title="D&eacute;connexion">&#128682; D&eacute;connexion</a>
+        </div>
+      </header>
+
+      <!-- Content area -->
+      <main class="content">
+
+        <!-- ===== DASHBOARD ===== -->
+        <div id="page-dashboard" class="page active">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon blue">&#9993;&#65039;</div>
+              <div class="stat-info">
+                <h3 id="stat-courriers">-</h3>
+                <p>Courriers</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon orange">&#128203;</div>
+              <div class="stat-info">
+                <h3 id="stat-demandes">-</h3>
+                <p>Demandes en cours</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon green">&#128197;</div>
+              <div class="stat-info">
+                <h3 id="stat-reservations">-</h3>
+                <p>R&eacute;servations du jour</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon purple">&#127963;&#65039;</div>
+              <div class="stat-info">
+                <h3 id="stat-conseil" style="font-size:1rem;">-</h3>
+                <p>Prochaine s&eacute;ance</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="card">
+            <div class="card-header"><h3>Actions rapides</h3></div>
+            <div class="quick-actions">
+              <button class="quick-action-btn" onclick="App.navigate('courriers');setTimeout(()=>Courriers.openNew(),200)">
+                <span class="qa-icon">&#9993;&#65039;</span> Nouveau courrier
+              </button>
+              <button class="quick-action-btn" onclick="App.navigate('demandes');setTimeout(()=>Demandes.openNew(),200)">
+                <span class="qa-icon">&#128203;</span> Nouvelle demande
+              </button>
+              <button class="quick-action-btn" onclick="App.navigate('reservations');setTimeout(()=>Reservations.openNew(),200)">
+                <span class="qa-icon">&#128197;</span> Nouvelle r&eacute;servation
+              </button>
+              <button class="quick-action-btn" onclick="App.navigate('ai')">
+                <span class="qa-icon">&#129302;</span> Assistant IA
+              </button>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <!-- Tasks -->
+            <div class="card">
+              <div class="card-header"><h3>&#9745;&#65039; T&acirc;ches</h3></div>
+              <div id="task-list"></div>
+              <div class="add-task-row">
+                <input type="text" id="new-task-input" class="form-control" placeholder="Ajouter une t&acirc;che..."
+                       onkeydown="if(event.key==='Enter')Dashboard.addTask()">
+                <button class="btn btn-primary btn-sm" onclick="Dashboard.addTask()">Ajouter</button>
+              </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="card">
+              <div class="card-header"><h3>&#128340; Activit&eacute; r&eacute;cente</h3></div>
+              <div id="activity-feed"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== COURRIERS ===== -->
+        <div id="page-courriers" class="page">
+          <div class="filter-bar">
+            <div class="form-group">
+              <label>Recherche</label>
+              <input type="text" id="courrier-search" class="form-control" placeholder="R&eacute;f&eacute;rence, objet...">
+            </div>
+            <div class="form-group" style="max-width:160px;">
+              <label>Type</label>
+              <select id="courrier-filter-type" class="form-control">
+                <option value="">Tous</option>
+                <option value="entrant">Entrant</option>
+                <option value="sortant">Sortant</option>
+              </select>
+            </div>
+            <div class="form-group" style="max-width:160px;">
+              <label>Du</label>
+              <input type="date" id="courrier-date-from" class="form-control">
+            </div>
+            <div class="form-group" style="max-width:160px;">
+              <label>Au</label>
+              <input type="date" id="courrier-date-to" class="form-control">
+            </div>
+            <button class="btn btn-primary btn-sm" id="courrier-search-btn">Rechercher</button>
+            <button class="btn btn-success btn-sm" onclick="Courriers.openNew()">+ Nouveau courrier</button>
+          </div>
+
+          <div class="card">
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>R&eacute;f&eacute;rence</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Objet</th>
+                    <th>Exp./Dest.</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="courriers-tbody">
+                  <tr><td colspan="6" class="empty-state"><p>Chargement...</p></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== CONSEIL MUNICIPAL ===== -->
+        <div id="page-conseil" class="page">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:.5rem;">
+            <h2 style="font-size:1.1rem;">S&eacute;ances du conseil</h2>
+            <button class="btn btn-success btn-sm" onclick="Conseil.openNew()">+ Nouvelle s&eacute;ance</button>
+          </div>
+          <div id="sessions-list">
+            <div class="loading-overlay"><span class="spinner"></span> Chargement...</div>
+          </div>
+        </div>
+
+        <!-- ===== DEMANDES ===== -->
+        <div id="page-demandes" class="page">
+          <div class="filter-bar">
+            <div class="form-group">
+              <label>Recherche</label>
+              <input type="text" id="demande-search" class="form-control" placeholder="Nom, objet...">
+            </div>
+            <div class="form-group" style="max-width:180px;">
+              <label>Statut</label>
+              <select id="demande-filter-statut" class="form-control">
+                <option value="">Tous</option>
+                <option value="nouveau">Nouveau</option>
+                <option value="en_cours">En cours</option>
+                <option value="traite">Trait&eacute;</option>
+                <option value="refuse">Refus&eacute;</option>
+              </select>
+            </div>
+            <button class="btn btn-primary btn-sm" id="demande-search-btn">Rechercher</button>
+            <button class="btn btn-success btn-sm" onclick="Demandes.openNew()">+ Nouvelle demande</button>
+          </div>
+
+          <div class="card">
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Demandeur</th>
+                    <th>Cat&eacute;gorie</th>
+                    <th>Objet</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="demandes-tbody">
+                  <tr><td colspan="6" class="empty-state"><p>Chargement...</p></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== RESERVATIONS ===== -->
+        <div id="page-reservations" class="page">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
+            <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;">
+              <div class="view-toggle" id="resa-view-toggle">
+                <button class="active" data-view="calendar" onclick="Reservations.setView('calendar')">&#128197; Calendrier</button>
+                <button data-view="list" onclick="Reservations.setView('list')">&#128203; Liste</button>
+              </div>
+              <div class="calendar-nav">
+                <button class="btn btn-ghost btn-sm" onclick="Reservations.prevWeek()">&larr;</button>
+                <button class="btn btn-outline btn-sm" onclick="Reservations.todayWeek()">Aujourd'hui</button>
+                <button class="btn btn-ghost btn-sm" onclick="Reservations.nextWeek()">&rarr;</button>
+              </div>
+              <span id="resa-week-label" style="font-size:.9rem;color:var(--text-light);font-weight:500;"></span>
+            </div>
+            <button class="btn btn-success btn-sm" onclick="Reservations.openNew()">+ Nouvelle r&eacute;servation</button>
+          </div>
+
+          <div class="card">
+            <div id="resa-calendar"></div>
+            <div id="resa-list-container" style="display:none;">
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Lieu</th>
+                      <th>Demandeur</th>
+                      <th>Objet</th>
+                      <th>Statut</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="resa-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== DOCUMENTS ===== -->
+        <div id="page-documents" class="page">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
+            <div style="display:flex;gap:.5rem;align-items:center;">
+              <input type="text" id="doc-search" class="form-control" placeholder="Rechercher un document..." style="max-width:260px;">
+              <button class="btn btn-primary btn-sm" id="doc-search-btn">Rechercher</button>
+            </div>
+            <button class="btn btn-success btn-sm" onclick="Documents.createFolder()">+ Nouveau dossier</button>
+          </div>
+
+          <div class="doc-layout">
+            <div class="folder-tree">
+              <h4 style="font-size:.88rem;margin-bottom:.75rem;color:var(--text-light);">Dossiers</h4>
+              <div id="folder-tree-list"></div>
+            </div>
+            <div>
+              <div class="drop-zone" id="doc-drop-zone">
+                <div class="drop-icon">&#128228;</div>
+                <p>Glissez-d&eacute;posez vos fichiers ici<br><small>ou cliquez pour s&eacute;lectionner</small></p>
+              </div>
+              <input type="file" id="doc-file-input" multiple style="display:none;">
+              <div id="file-list">
+                <div class="loading-overlay"><span class="spinner"></span> Chargement...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== ASSISTANT IA ===== -->
+        <div id="page-ai" class="page">
+          <div class="two-col">
+            <div class="card">
+              <div class="card-header"><h3>&#129302; G&eacute;n&eacute;rer un texte</h3></div>
+              <div class="form-group">
+                <label>Type de document</label>
+                <select id="ai-type" class="form-control">
+                  <option value="courrier">Courrier</option>
+                  <option value="deliberation">D&eacute;lib&eacute;ration</option>
+                  <option value="mail">Mail</option>
+                  <option value="resume">R&eacute;sum&eacute; de document</option>
+                </select>
+              </div>
+              <div id="ai-fields"></div>
+              <button class="btn btn-primary btn-block" onclick="AI.generate()">&#10024; G&eacute;n&eacute;rer</button>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>R&eacute;sultat</h3></div>
+              <div id="ai-result" class="ai-result-area">
+                <p style="color:var(--text-lighter);">Le r&eacute;sultat appara&icirc;tra ici apr&egrave;s g&eacute;n&eacute;ration.</p>
+              </div>
+              <div id="ai-actions" class="btn-group" style="margin-top:1rem;display:none;">
+                <button class="btn btn-outline btn-sm" onclick="AI.copyResult()">&#128203; Copier</button>
+                <button class="btn btn-primary btn-sm" onclick="AI.useInCourrier()">&#9993;&#65039; Utiliser dans un courrier</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== ADMINISTRATION ===== -->
+        <div id="page-admin" class="page">
+          <!-- Users -->
+          <div class="card">
+            <div class="card-header">
+              <h3>&#128100; Gestion des utilisateurs</h3>
+              <button class="btn btn-success btn-sm" onclick="Admin.openNewUser()">+ Nouvel utilisateur</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Identifiant</th>
+                    <th>R&ocirc;le</th>
+                    <th>Date cr&eacute;ation</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="users-tbody">
+                  <tr><td colspan="5" class="empty-state"><p>Chargement...</p></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Logs -->
+          <div class="card">
+            <div class="card-header">
+              <h3>&#128203; Journal d'activit&eacute;</h3>
+              <div class="form-inline">
+                <div class="form-group">
+                  <label>Du</label>
+                  <input type="date" id="logs-date-from" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Au</label>
+                  <input type="date" id="logs-date-to" class="form-control">
+                </div>
+                <button class="btn btn-primary btn-sm" id="logs-filter-btn">Filtrer</button>
+              </div>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Utilisateur</th>
+                    <th>Action</th>
+                    <th>D&eacute;tails</th>
+                  </tr>
+                </thead>
+                <tbody id="logs-tbody">
+                  <tr><td colspan="4" class="empty-state"><p>Chargement...</p></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ========== MODALS ========== -->
+
+  <!-- Confirm Dialog -->
+  <div id="confirm-modal" class="modal-overlay">
+    <div class="modal" style="max-width:400px;">
+      <div class="modal-header">
+        <h3>Confirmation</h3>
+        <button class="modal-close" onclick="App.closeModal('confirm-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirm-message">&Ecirc;tes-vous s&ucirc;r ?</p>
+      </div>
+      <div class="modal-footer">
+        <button id="confirm-cancel" class="btn btn-ghost">Annuler</button>
+        <button id="confirm-ok" class="btn btn-danger">Confirmer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Courrier Form Modal -->
+  <div id="courrier-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="courrier-modal-title">Nouveau courrier</h3>
+        <button class="modal-close" onclick="App.closeModal('courrier-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="courrier-form">
+          <input type="hidden" id="courrier-id">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Type</label>
+              <select id="courrier-type" class="form-control" required>
+                <option value="entrant">Entrant</option>
+                <option value="sortant">Sortant</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Objet</label>
+              <input type="text" id="courrier-objet" class="form-control" required placeholder="Objet du courrier">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Exp&eacute;diteur</label>
+              <input type="text" id="courrier-expediteur" class="form-control" placeholder="Nom de l'exp&eacute;diteur">
+            </div>
+            <div class="form-group">
+              <label>Destinataire</label>
+              <input type="text" id="courrier-destinataire" class="form-control" placeholder="Nom du destinataire">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Contenu</label>
+            <textarea id="courrier-contenu" class="form-control" rows="5" placeholder="Contenu du courrier..."></textarea>
+          </div>
+          <div class="modal-footer" style="padding:1rem 0 0;border:none;">
+            <button type="button" class="btn btn-ghost" onclick="App.closeModal('courrier-modal')">Annuler</button>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Courrier View Modal -->
+  <div id="courrier-view-modal" class="modal-overlay">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h3>D&eacute;tail du courrier</h3>
+        <button class="modal-close" onclick="App.closeModal('courrier-view-modal')">&times;</button>
+      </div>
+      <div class="modal-body" id="courrier-view-content"></div>
+    </div>
+  </div>
+
+  <!-- Session Form Modal -->
+  <div id="session-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="session-modal-title">Nouvelle s&eacute;ance</h3>
+        <button class="modal-close" onclick="App.closeModal('session-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="session-form">
+          <input type="hidden" id="session-id">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Type de s&eacute;ance</label>
+              <select id="session-type" class="form-control" required>
+                <option value="ordinaire">Ordinaire</option>
+                <option value="extraordinaire">Extraordinaire</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Statut</label>
+              <select id="session-statut" class="form-control">
+                <option value="programme">Programm&eacute;</option>
+                <option value="en_cours">En cours</option>
+                <option value="termine">Termin&eacute;</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" id="session-date" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Heure</label>
+              <input type="time" id="session-heure" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Lieu</label>
+            <input type="text" id="session-lieu" class="form-control" placeholder="Ex: Salle du conseil" value="Salle du conseil">
+          </div>
+          <div class="modal-footer" style="padding:1rem 0 0;border:none;">
+            <button type="button" class="btn btn-ghost" onclick="App.closeModal('session-modal')">Annuler</button>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Session Detail Modal -->
+  <div id="session-detail-modal" class="modal-overlay">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h3 id="session-detail-title">D&eacute;tail de la s&eacute;ance</h3>
+        <button class="modal-close" onclick="App.closeModal('session-detail-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="session-detail-info" style="margin-bottom:1.25rem;"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem;">
+          <h4 style="font-size:.95rem;">Ordre du jour</h4>
+          <div class="btn-group">
+            <button class="btn btn-success btn-sm" onclick="Conseil.openAddAgendaItem()">+ Ajouter un point</button>
+            <button class="btn btn-outline btn-sm" onclick="Conseil.generatePdf('ordre_du_jour')">&#128196; Ordre du jour PDF</button>
+            <button class="btn btn-outline btn-sm" onclick="Conseil.generatePdf('compte_rendu')">&#128196; Compte-rendu PDF</button>
+          </div>
+        </div>
+        <div id="agenda-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agenda Item Modal -->
+  <div id="agenda-modal" class="modal-overlay">
+    <div class="modal" style="max-width:500px;">
+      <div class="modal-header">
+        <h3 id="agenda-modal-title">Point de l'ordre du jour</h3>
+        <button class="modal-close" onclick="App.closeModal('agenda-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="agenda-form">
+          <input type="hidden" id="agenda-item-index">
+          <div class="form-group">
+            <label>Titre</label>
+            <input type="text" id="agenda-item-titre" class="form-control" required placeholder="Titre du point">
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="agenda-item-description" class="form-control" rows="3" placeholder="Description d&eacute;taill&eacute;e..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Rapporteur</label>
+            <input type="text" id="agenda-item-rapporteur" class="form-control" placeholder="Nom du rapporteur">
+          </div>
+          <div class="modal-footer" style="padding:1rem 0 0;border:none;">
+            <button type="button" class="btn btn-ghost" onclick="App.closeModal('agenda-modal')">Annuler</button>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demande Form Modal -->
+  <div id="demande-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="demande-modal-title">Nouvelle demande</h3>
+        <button class="modal-close" onclick="App.closeModal('demande-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="demande-form">
+          <input type="hidden" id="demande-id">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nom</label>
+              <input type="text" id="demande-nom" class="form-control" required placeholder="Nom">
+            </div>
+            <div class="form-group">
+              <label>Pr&eacute;nom</label>
+              <input type="text" id="demande-prenom" class="form-control" required placeholder="Pr&eacute;nom">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="demande-email" class="form-control" placeholder="email@exemple.fr">
+            </div>
+            <div class="form-group">
+              <label>T&eacute;l&eacute;phone</label>
+              <input type="tel" id="demande-tel" class="form-control" placeholder="06 12 34 56 78">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Cat&eacute;gorie</label>
+              <select id="demande-categorie" class="form-control" required>
+                <option value="">-- Choisir --</option>
+                <option value="urbanisme">&Eacute;tat civil / Urbanisme</option>
+                <option value="voirie">Voirie / Travaux</option>
+                <option value="social">Social / Aide</option>
+                <option value="scolaire">Scolaire / P&eacute;riscolaire</option>
+                <option value="environnement">Environnement / Espaces verts</option>
+                <option value="securite">S&eacute;curit&eacute; / Tranquillit&eacute;</option>
+                <option value="autre">Autre</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Objet</label>
+              <input type="text" id="demande-objet" class="form-control" required placeholder="Objet de la demande">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="demande-description" class="form-control" rows="4" placeholder="D&eacute;crivez la demande en d&eacute;tail..."></textarea>
+          </div>
+          <div class="modal-footer" style="padding:1rem 0 0;border:none;">
+            <button type="button" class="btn btn-ghost" onclick="App.closeModal('demande-modal')">Annuler</button>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demande View Modal -->
+  <div id="demande-view-modal" class="modal-overlay">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h3>D&eacute;tail de la demande</h3>
+        <button class="modal-close" onclick="App.closeModal('demande-view-modal')">&times;</button>
+      </div>
+      <div class="modal-body" id="demande-view-content"></div>
+    </div>
+  </div>
+
+  <!-- Reservation Form Modal -->
+  <div id="resa-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="resa-modal-title">Nouvelle r&eacute;servation</h3>
+        <button class="modal-close" onclick="App.closeModal('resa-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="resa-form">
+          <input type="hidden" id="resa-id">
+          <div class="form-group">
+            <label>Lieu</label>
+            <select id="resa-lieu" class="form-control" required>
+              <option value="">-- Choisir un lieu --</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nom du demandeur</label>
+              <input type="text" id="resa-demandeur" class="form-control" required placeholder="Nom complet">
+            </div>
+            <div class="form-group">
+              <label>T&eacute;l&eacute;phone</label>
+              <input type="tel" id="resa-demandeur-tel" class="form-control" placeholder="06 12 34 56 78">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="resa-demandeur-email" class="form-control" placeholder="email@exemple.fr">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date de d&eacute;but</label>
+              <input type="date" id="resa-date-debut" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Heure de d&eacute;but</label>
+              <input type="time" id="resa-heure-debut" class="form-control" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date de fin</label>
+              <input type="date" id="resa-date-fin" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Heure de fin</label>
+              <input type="time" id="resa-heure-fin" class="form-control" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Objet</label>
+              <input type="text" id="resa-objet" class="form-control" required placeholder="Objet de la r&eacute;servation">
+            </div>
+            <div class="form-group">
+              <label>Montant (&euro;)</label>
+              <input type="number" id="resa-montant" class="form-control" min="0" step="0.01" placeholder="0.00">
+            </div>
+          </div>
+          <div class="modal-footer" style="padding:1rem 0 0;border:none;">
+            <button type="button" class="btn btn-ghost" onclick="App.closeModal('resa-modal')">Annuler</button>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reservation View Modal -->
+  <div id="resa-view-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>D&eacute;tail de la r&eacute;servation</h3>
+        <button class="modal-close" onclick="App.closeModal('resa-view-modal')">&times;</button>
+      </div>
+      <div class="modal-body" id="resa-view-content"></div>
+    </div>
+  </div>
+
+  <!-- User Form Modal -->
+  <div id="user-modal" class="modal-overlay">
+    <div class="modal" style="max-width:480px;">
+      <div class="modal-header">
+        <h3 id="user-modal-title">Nouvel utilisateur</h3>
+        <button class="modal-close" onclick="App.closeModal('user-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="user-form">
+          <input type="hidden" id="user-id">
+          <div class="form-group">
+            <label>Nom complet</label>
+            <input type="text" id="user-nom" class="form-control" required placeholder="Pr&eacute;nom Nom">
+          </div>
+          <div class="form-group">
+            <label>Identifiant de connexion</label>
+            <input type="text" id="user-login" class="form-control" required placeholder="identifiant" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label>Mot de passe</label>
+            <input type="password" id="user-password" class="form-control" placeholder="Mot de passe" autocomplete="new-password">
+            <small id="user-password-hint" style="display:none;color:var(--text-lighter);">Laissez vide pour ne pas modifier le mot de passe.</small>
+          </div>
+          <div class="form-group">
+            <label>R&ocirc;le</label>
+            <select id="user-role" class="form-control" required>
+              <option value="secretaire">Secr&eacute;taire</option>
+              <option value="admin">Administrateur</option>
+            </select>
+          </div>
+          <div class="modal-footer" style="padding:1rem 0 0;border:none;">
+            <button type="button" class="btn btn-ghost" onclick="App.closeModal('user-modal')">Annuler</button>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS files -->
+  <script src="/js/app.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/courriers.js"></script>
+  <script src="/js/conseil.js"></script>
+  <script src="/js/demandes.js"></script>
+  <script src="/js/reservations.js"></script>
+  <script src="/js/documents.js"></script>
+  <script src="/js/ai.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

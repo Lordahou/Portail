@@ -1,0 +1,10 @@
+node_modules/
+data/courriers/
+data/conseil/
+data/demandes/
+data/reservations/
+data/documents/
+data/logs/
+data/dashboard/
+.env
+*.log
